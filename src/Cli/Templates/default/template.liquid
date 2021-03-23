@@ -1,0 +1,23 @@
+{% layout 'Templates/default/layout' %}
+<div class="grid grid-cols-3 gap-2 p-2">
+  <div class="bg-white shadow overflow-hidden rounded-lg col-span-1 text-center">
+    <div class="px-4 py-5">
+      <div>
+        <img class="inline object-cover w-1/2 rounded-full" src="{{ Basics.Image }}" alt={{ Basics.Name }} />
+        <h1 class="text-3xl font-bold mt-4">{{ Basics.Name }}</h1>
+        <span class="text-gray-500">{{ Basics.Label }}</span>
+      </div>
+      <hr class="my-8" />
+      <div class="grid grid-cols-1 gap-4">
+        {% if Basics.Location != null %}<div><ion-icon name="navigate-circle"></ion-icon> {{ Basics.Location.Address }}</div>{% endif %}
+        {% if Basics.Phone != null %}<div><ion-icon name="call"></ion-icon> <a href="tel:{{ Basics.Phone }}">{{ Basics.Phone }}</a></div>{% endif %}
+        {% if Basics.Email != null %}<div><ion-icon name="mail"></ion-icon> <a href="mailto:{{ Basics.Email }}">{{ Basics.Email }}</a></div>{% endif %}
+        {% if Basics.Url != null %}<div><ion-icon name="open"></ion-icon> <a href="{{ Basics.Url }}">{{ Basics.Url }}</a></div>{% endif %}
+      </div>
+      <hr class="my-8" />
+      <div class="flex justify-center space-x-4">
+        
+      </div>
+    </div>
+  </div>
+</div>
