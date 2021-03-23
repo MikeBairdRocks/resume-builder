@@ -1,7 +1,8 @@
-namespace Cli
+namespace ResumeBuilder.Cli
 {
-  public class Defaults
+  public static class Defaults
   {
-    
+    public const string ResumePath = "resume.json";
+    public const string Theme = "Templates/default/template.liquid";
   }
 }

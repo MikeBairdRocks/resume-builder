@@ -1,2 +1,23 @@
 <Project>
+  <PropertyGroup Label="SDK Versions">
+    <NetCoreTargetVersion>net5.0</NetCoreTargetVersion>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package information">
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/MikeBairdRocks/resume-builder</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/MikeBairdRocks/resume-builder</RepositoryUrl>
+    <Authors>Resume Builder Contributors</Authors>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>true;</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Namespaces and Assembly">
+    <AssemblyName>ResumeBuilder.$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>$(AssemblyName)</RootNamespace>
+  </PropertyGroup>
 </Project>

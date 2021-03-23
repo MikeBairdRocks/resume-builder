@@ -1,92 +1,82 @@
-using System.Globalization;
-using System.IO;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Core;
 
-namespace Core
+namespace ResumeBuilder.Core.Schema.v1
 {
   public class JsonResumeV1
   {
     public const string SchemaUrl = "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json";
 
-    private static readonly JsonSerializerSettings Settings = new()
+    internal static readonly JsonSerializerOptions Settings = new()
     {
-      MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
-      DateParseHandling = DateParseHandling.None,
-      Converters =
-      {
-        new IsoDateTimeConverter
-        {
-          DateTimeStyles = DateTimeStyles.AdjustToUniversal,
-          DateTimeFormat = "yyyy-MM-dd"
-        }
-      },
+      DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
-    public static JsonResumeV1 FromJson(StreamReader reader)
-    {
-      using var jsonReader = new JsonTextReader(reader);
-      return new JsonSerializer().Deserialize<JsonResumeV1>(jsonReader);
-    }
+    // public static JsonResumeV1 FromJson()
+    // {
+    //   using var jsonReader = new Utf8JsonReader(Encoding.UTF8.GetBytes());
+    //   return JsonSerializer.Deserialize<JsonResumeV1>(jsonReader, Settings);
+    // }
 
-    public static JsonResumeV1 FromJson(string json) => JsonConvert.DeserializeObject<JsonResumeV1>(json, Settings);
-    public string ToJson() => JsonConvert.SerializeObject(this, Settings);
+    public static JsonResumeV1 FromJson(string json) => JsonSerializer.Deserialize<JsonResumeV1>(json, Settings);
+    public string ToJson() => JsonSerializer.Serialize(this, Settings);
     
     /// <summary>
     /// Specify any awards you have received throughout your professional career
     /// </summary>
-    [JsonProperty("awards", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("awards")]
     public Award[] Awards { get; set; }
 
-    [JsonProperty("basics", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("basics")]
     public Basics Basics { get; set; }
 
-    [JsonProperty("education", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("education")]
     public Education[] Education { get; set; }
 
-    [JsonProperty("interests", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("interests")]
     public Interest[] Interests { get; set; }
 
     /// <summary>
     /// List any other languages you speak
     /// </summary>
-    [JsonProperty("languages", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("languages")]
     public Language[] Languages { get; set; }
 
     /// <summary>
     /// The schema version and any other tooling configuration lives here
     /// </summary>
-    [JsonProperty("meta", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("meta")]
     public Meta Meta { get; set; }
 
     /// <summary>
     /// Specify career projects
     /// </summary>
-    [JsonProperty("projects", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("projects")]
     public Project[] Projects { get; set; }
 
     /// <summary>
     /// Specify your publications through your career
     /// </summary>
-    [JsonProperty("publications", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("publications")]
     public Publication[] Publications { get; set; }
 
     /// <summary>
     /// List references you have received
     /// </summary>
-    [JsonProperty("references", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("references")]
     public Reference[] References { get; set; }
 
     /// <summary>
     /// List out your professional skill-set
     /// </summary>
-    [JsonProperty("skills", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("skills")]
     public Skill[] Skills { get; set; }
 
-    [JsonProperty("volunteer", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("volunteer")]
     public Volunteer[] Volunteer { get; set; }
 
-    [JsonProperty("work", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("work")]
     public Work[] Work { get; set; }
   }
 }

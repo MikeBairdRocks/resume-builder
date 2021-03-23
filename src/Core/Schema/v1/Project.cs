@@ -1,68 +1,68 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace Core
+namespace ResumeBuilder.Core.Schema.v1
 {
   public class Project
   {
     /// <summary>
     /// Short summary of project. e.g. Collated works of 2017.
     /// </summary>
-    [JsonProperty("description", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("description")]
     public string Description { get; set; }
 
     /// <summary>
     /// e.g. 2012-06-29
     /// </summary>
-    [JsonProperty("endDate", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("endDate")]
     public DateTimeOffset? EndDate { get; set; }
 
     /// <summary>
     /// Specify the relevant company/entity affiliations e.g. 'greenpeace', 'corporationXYZ'
     /// </summary>
-    [JsonProperty("entity", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("entity")]
     public string Entity { get; set; }
 
     /// <summary>
     /// Specify multiple features
     /// </summary>
-    [JsonProperty("highlights", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("highlights")]
     public string[] Highlights { get; set; }
 
     /// <summary>
     /// Specify special elements involved
     /// </summary>
-    [JsonProperty("keywords", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("keywords")]
     public string[] Keywords { get; set; }
 
     /// <summary>
     /// e.g. The World Wide Web
     /// </summary>
-    [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
     /// Specify your role on this project or in company
     /// </summary>
-    [JsonProperty("roles", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("roles")]
     public string[] Roles { get; set; }
 
     /// <summary>
     /// resume.json uses the ISO 8601 date standard e.g. 2014-06-29
     /// </summary>
-    [JsonProperty("startDate", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("startDate")]
     public DateTimeOffset? StartDate { get; set; }
 
     /// <summary>
     /// e.g. 'volunteering', 'presentation', 'talk', 'application', 'conference'
     /// </summary>
-    [JsonProperty("type", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("type")]
     public string Type { get; set; }
 
     /// <summary>
     /// e.g. http://www.computer.org/csdl/mags/co/1996/10/rx069-abs.html
     /// </summary>
-    [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("url")]
     public Uri Url { get; set; }
   }
 }

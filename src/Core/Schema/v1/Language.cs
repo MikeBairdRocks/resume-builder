@@ -1,19 +1,20 @@
-using Newtonsoft.Json;
 
-namespace Core
+using System.Text.Json.Serialization;
+
+namespace ResumeBuilder.Core.Schema.v1
 {
   public class Language
   {
     /// <summary>
     /// e.g. Fluent, Beginner
     /// </summary>
-    [JsonProperty("fluency", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("fluency")]
     public string Fluency { get; set; }
 
     /// <summary>
     /// e.g. English, Spanish
     /// </summary>
-    [JsonProperty("language", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("language")]
     public string LanguageLanguage { get; set; }
   }
 }

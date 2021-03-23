@@ -1,56 +1,56 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace Core
+namespace ResumeBuilder.Core.Schema.v1
 {
   public class Basics
   {
     /// <summary>
     /// e.g. thomas@gmail.com
     /// </summary>
-    [JsonProperty("email", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("email")]
     public string Email { get; set; }
 
     /// <summary>
     /// URL (as per RFC 3986) to a image in JPEG or PNG format
     /// </summary>
-    [JsonProperty("image", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("image")]
     public string Image { get; set; }
 
     /// <summary>
     /// e.g. Web Developer
     /// </summary>
-    [JsonProperty("label", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("label")]
     public string Label { get; set; }
 
-    [JsonProperty("location", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("location")]
     public Location Location { get; set; }
 
-    [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
     /// Phone numbers are stored as strings so use any format you like, e.g. 712-117-2923
     /// </summary>
-    [JsonProperty("phone", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("phone")]
     public string Phone { get; set; }
 
     /// <summary>
     /// Specify any number of social networks that you participate in
     /// </summary>
-    [JsonProperty("profiles", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("profiles")]
     public Profile[] Profiles { get; set; }
 
     /// <summary>
     /// Write a short 2-3 sentence biography about yourself
     /// </summary>
-    [JsonProperty("summary", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("summary")]
     public string Summary { get; set; }
 
     /// <summary>
     /// URL (as per RFC 3986) to your website, e.g. personal homepage
     /// </summary>
-    [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("url")]
     public Uri Url { get; set; }
   }
 }

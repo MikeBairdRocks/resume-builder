@@ -1,50 +1,50 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace Core
+namespace ResumeBuilder.Core.Schema.v1
 {
   public class Education
   {
     /// <summary>
     /// e.g. Arts
     /// </summary>
-    [JsonProperty("area", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("area")]
     public string Area { get; set; }
 
     /// <summary>
     /// List notable courses/subjects
     /// </summary>
-    [JsonProperty("courses", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("courses")]
     public string[] Courses { get; set; }
 
     /// <summary>
     /// e.g. 2012-06-29
     /// </summary>
-    [JsonProperty("endDate", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("endDate")]
     public DateTimeOffset? EndDate { get; set; }
 
     /// <summary>
     /// grade point average, e.g. 3.67/4.0
     /// </summary>
-    [JsonProperty("gpa", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("gpa")]
     public string Gpa { get; set; }
 
     /// <summary>
     /// e.g. Massachusetts Institute of Technology
     /// </summary>
-    [JsonProperty("institution", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("institution")]
     public string Institution { get; set; }
 
     /// <summary>
     /// e.g. 2014-06-29
     /// </summary>
-    [JsonProperty("startDate", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("startDate")]
     public DateTimeOffset? StartDate { get; set; }
 
     /// <summary>
     /// e.g. Bachelor
     /// </summary>
-    [JsonProperty("studyType", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("studyType")]
     public string StudyType { get; set; }
   }
 }

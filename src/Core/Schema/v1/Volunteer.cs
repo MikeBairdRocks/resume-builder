@@ -1,50 +1,50 @@
 using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace Core
+namespace ResumeBuilder.Core.Schema.v1
 {
   public class Volunteer
   {
     /// <summary>
     /// e.g. 2012-06-29
     /// </summary>
-    [JsonProperty("endDate", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("endDate")]
     public DateTimeOffset? EndDate { get; set; }
 
     /// <summary>
     /// Specify accomplishments and achievements
     /// </summary>
-    [JsonProperty("highlights", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("highlights")]
     public string[] Highlights { get; set; }
 
     /// <summary>
     /// e.g. Facebook
     /// </summary>
-    [JsonProperty("organization", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("organization")]
     public string Organization { get; set; }
 
     /// <summary>
     /// e.g. Software Engineer
     /// </summary>
-    [JsonProperty("position", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("position")]
     public string Position { get; set; }
 
     /// <summary>
     /// resume.json uses the ISO 8601 date standard e.g. 2014-06-29
     /// </summary>
-    [JsonProperty("startDate", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("startDate")]
     public DateTimeOffset? StartDate { get; set; }
 
     /// <summary>
     /// Give an overview of your responsibilities at the company
     /// </summary>
-    [JsonProperty("summary", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("summary")]
     public string Summary { get; set; }
 
     /// <summary>
     /// e.g. http://facebook.example.com
     /// </summary>
-    [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("url")]
     public Uri Url { get; set; }
   }
 }

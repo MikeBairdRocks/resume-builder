@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace Core
 {
@@ -7,14 +7,14 @@ namespace Core
     /// <summary>
     /// e.g. Timothy Cook
     /// </summary>
-    [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
 
     /// <summary>
     /// e.g. Joe blogs was a great employee, who turned up to work at least once a week. He
     /// exceeded my expectations when it came to doing nothing.
     /// </summary>
-    [JsonProperty("reference", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("reference")]
     public string ReferenceReference { get; set; }
   }
 }

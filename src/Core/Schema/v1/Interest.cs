@@ -1,16 +1,16 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace Core
+namespace ResumeBuilder.Core.Schema.v1
 {
   public class Interest
   {
-    [JsonProperty("keywords", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("keywords")]
     public string[] Keywords { get; set; }
 
     /// <summary>
     /// e.g. Philosophy
     /// </summary>
-    [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
   }
 }

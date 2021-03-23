@@ -1,25 +1,25 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace Core
+namespace ResumeBuilder.Core.Schema.v1
 {
   public class Skill
   {
     /// <summary>
     /// List some keywords pertaining to this skill
     /// </summary>
-    [JsonProperty("keywords", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("keywords")]
     public string[] Keywords { get; set; }
 
     /// <summary>
     /// e.g. Master
     /// </summary>
-    [JsonProperty("level", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("level")]
     public string Level { get; set; }
 
     /// <summary>
     /// e.g. Web Development
     /// </summary>
-    [JsonProperty("name", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("name")]
     public string Name { get; set; }
   }
 }

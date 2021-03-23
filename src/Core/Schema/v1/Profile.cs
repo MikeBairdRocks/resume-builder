@@ -1,25 +1,25 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace Core
+namespace ResumeBuilder.Core.Schema.v1
 {
   public class Profile
   {
     /// <summary>
     /// e.g. Facebook or Twitter
     /// </summary>
-    [JsonProperty("network", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("network")]
     public string Network { get; set; }
 
     /// <summary>
     /// e.g. http://twitter.example.com/neutralthoughts
     /// </summary>
-    [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("url")]
     public string Url { get; set; }
 
     /// <summary>
     /// e.g. neutralthoughts
     /// </summary>
-    [JsonProperty("username", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("username")]
     public string Username { get; set; }
   }
 }

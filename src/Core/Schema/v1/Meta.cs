@@ -1,6 +1,6 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
-namespace Core
+namespace ResumeBuilder.Core.Schema.v1
 {
   /// <summary>
   /// The schema version and any other tooling configuration lives here
@@ -10,19 +10,19 @@ namespace Core
     /// <summary>
     /// URL (as per RFC 3986) to latest version of this document
     /// </summary>
-    [JsonProperty("canonical", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("canonical")]
     public string Canonical { get; set; }
 
     /// <summary>
     /// Using ISO 8601 with YYYY-MM-DDThh:mm:ss
     /// </summary>
-    [JsonProperty("lastModified", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("lastModified")]
     public string LastModified { get; set; }
 
     /// <summary>
     /// A version field which follows semver - e.g. v1.0.0
     /// </summary>
-    [JsonProperty("version", NullValueHandling = NullValueHandling.Ignore)]
+    [JsonPropertyName("version")]
     public string Version { get; set; }
   }
 }
