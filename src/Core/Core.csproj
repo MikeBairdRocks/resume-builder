@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Fluid.Core" Version="2.0.0-beta-1010" />
     <PackageReference Include="JsonSchema.Net" Version="1.9.3" />
   </ItemGroup>
-
 </Project>

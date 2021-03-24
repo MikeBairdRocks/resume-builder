@@ -1,0 +1,17 @@
+mode: ContinuousDelivery
+
+assembly-versioning-scheme: MajorMinor
+assembly-file-versioning-scheme: MajorMinorPatch
+
+branches:
+  master:
+    regex: (^master$|^origin\/master$|^main$|^origin\/main$)
+    tag: ''
+    is-mainline: true
+  develop:
+    tag: 'alpha'
+  release:
+    tag: 'beta'
+
+ignore:
+  sha: []

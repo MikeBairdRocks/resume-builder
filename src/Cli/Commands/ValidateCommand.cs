@@ -11,7 +11,7 @@ namespace ResumeBuilder.Cli.Commands
     }
     
     private static Option FileOption =>
-      new Option(new[] {"-f", "--file"}, "Path to a resume.json file")
+      new(new[] {"-f", "--file"}, "Path to a resume.json file")
       {
         Argument = new Argument<FileInfo>(() => new FileInfo(Defaults.ResumePath))
         {

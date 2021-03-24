@@ -3,7 +3,8 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
-    <AssemblyName>resume</AssemblyName>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>resume-builder</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>
