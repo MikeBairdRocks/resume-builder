@@ -4,7 +4,7 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>resume-builder</ToolCommandName>
+    <ToolCommandName>resume</ToolCommandName>
   </PropertyGroup>
 
   <ItemGroup>

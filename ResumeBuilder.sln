@@ -14,6 +14,8 @@ ProjectSection(SolutionItems) = preProject
 	GitVersion.yml = GitVersion.yml
 EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7A85CBC2-DBF3-480B-90AB-F9E2603DE2B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

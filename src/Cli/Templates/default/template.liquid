@@ -13,24 +13,24 @@
       {% if Basics != null %}
         {{ hr | raw }}
         <div class="grid grid-cols-1 gap-4">
-          {% if Basics.Location != null %}
+          {% if Basics.Location %}
             <div>
               <ion-icon name="navigate-circle"></ion-icon> {{ Basics.Location.Address }}
             </div>
           {% endif %}
-          {% if Basics.Phone != null %}
+          {% if Basics.Phone %}
             <div>
               <ion-icon name="call"></ion-icon>
               <a href="tel:{{ Basics.Phone }}">{{ Basics.Phone }}</a>
             </div>
           {% endif %}
-          {% if Basics.Email != null %}
+          {% if Basics.Email %}
             <div>
               <ion-icon name="mail"></ion-icon>
               <a href="mailto:{{ Basics.Email }}">{{ Basics.Email }}</a>
             </div>
           {% endif %}
-          {% if Basics.Url != null %}
+          {% if Basics.Url %}
             <div>
               <ion-icon name="open"></ion-icon>
               <a href="{{ Basics.Url }}">{{ Basics.Url }}</a>
@@ -39,7 +39,7 @@
         </div>
       {% endif %}
 
-      {% if Basics.Profiles != null %}
+      {% if Basics.Profiles %}
         {{ hr | raw }}
         <div class="flex justify-center space-x-4">
           {% for profile in Basics.Profiles %}
