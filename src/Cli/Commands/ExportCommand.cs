@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PuppeteerSharp;
 using PuppeteerSharp.Media;
+using ResumeBuilder.Core.Exporters;
 using ResumeBuilder.Core.Schema.v1;
 using ResumeBuilder.Core.Template;
 
@@ -14,9 +15,10 @@ namespace ResumeBuilder.Cli.Commands
 {
   public class ExportCommand : Command
   {
-    public ExportCommand() : base("export", "Exports your resume locally in a stylized HTML or PDF format.")
+    public ExportCommand() :
+      base("export", "Exports your resume locally in a stylized HTML or PDF format.")
     {
-      AddOption(FileOption);
+      AddArgument(FileArgument);
       AddOption(TemplateOption);
       AddOption(FormatOption);
 
@@ -29,38 +31,22 @@ namespace ResumeBuilder.Cli.Commands
         var result = await engine.RenderAsync(theme, resume);
         var output = $"resume.{format.ToString()}";
 
-        if (format == Format.html)
+        switch (format)
         {
-          await using var htmlStream = new FileStream(output, FileMode.Create);
-          var bytes = Encoding.UTF8.GetBytes(result);
-          await htmlStream.WriteAsync(bytes);
-        }
-
-        if (format == Format.pdf)
-        {
-          var fetcher = new BrowserFetcher(new BrowserFetcherOptions
+          case Format.html:
           {
-            Path = AppContext.BaseDirectory
-          });
-
-          await fetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
-          var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+            var htmlExporter = new HtmlExporter();
+            await htmlExporter.ExportAsync(result, output);
+            break;
+          }
+          case Format.pdf:
           {
-            ExecutablePath = fetcher.GetExecutablePath(BrowserFetcher.DefaultChromiumRevision),
-            Headless = true
-          });
-
-          var page = await browser.NewPageAsync();
-          await page.EmulateMediaTypeAsync(MediaType.Print);
-
-          var encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(result));
-          await page.GoToAsync($"data:text/html;base64,{encoded}", WaitUntilNavigation.Networkidle0);
-
-          await page.PdfAsync(output, new PdfOptions
-          {
-            Format = PaperFormat.Letter,
-            PrintBackground = true
-          });
+            var pdfExporter = new PdfExporter();
+            await pdfExporter.ExportAsync(result, output);
+            break;
+          }
+          default:
+            throw new ArgumentOutOfRangeException(nameof(format), format, null);
         }
 
         console.Out.WriteLine("Done...");
@@ -91,15 +77,17 @@ namespace ResumeBuilder.Cli.Commands
       return resume;
     }
 
-    private static Option FileOption => new(new[] {"-f", "--file"}, "Path to a resume.json file")
-    {
-      Argument = new Argument<FileInfo>(() => new FileInfo(Defaults.ResumePath))
-      {
-        Name = "filepath",
-        Arity = ArgumentArity.ZeroOrOne
-      },
-      IsRequired = true
-    };
+    private static Argument<FileInfo> FileArgument => new("file");
+
+    // private static Option FileOption => new(new[] {"-f", "--file"}, "Path to a resume.json file")
+    // {
+    //   Argument = new Argument<FileInfo>(() => new FileInfo(Defaults.ResumePath))
+    //   {
+    //     Name = "filepath",
+    //     Arity = ArgumentArity.ZeroOrOne
+    //   },
+    //   IsRequired = true
+    // };
 
     private static Option TemplateOption => new(new[] {"-t", "--template"}, "Path to a template to render the file.")
     {
@@ -120,11 +108,11 @@ namespace ResumeBuilder.Cli.Commands
       },
       IsRequired = false
     };
+  }
 
-    private enum Format
-    {
-      pdf,
-      html
-    }
+  public enum Format
+  {
+    pdf,
+    html
   }
 }

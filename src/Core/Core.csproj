@@ -7,5 +7,6 @@
   <ItemGroup>
     <PackageReference Include="Fluid.Core" Version="2.0.0-beta-1010" />
     <PackageReference Include="JsonSchema.Net" Version="1.9.3" />
+    <PackageReference Include="PuppeteerSharp" Version="3.0.0" />
   </ItemGroup>
 </Project>

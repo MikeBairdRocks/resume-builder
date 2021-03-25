@@ -22,5 +22,5 @@ Here is a short list of some features:
 Install the dotnet global tool `ResumeBuilder.Cli` 
 
 ```shell
-dotnet tool -g install ResumeBuilder.Cli
+dotnet tool install --global ResumeBuilder.Cli
 ```

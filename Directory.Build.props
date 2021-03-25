@@ -8,6 +8,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/MikeBairdRocks/resume-builder</PackageProjectUrl>
     <RepositoryUrl>https://github.com/MikeBairdRocks/resume-builder</RepositoryUrl>
+    <Description>Resume Builder is an open-source command line tool for JSON Resume, the open source initiative to create a JSON-based standard for resumes. Built on top of C#/.Net to create beautiful resumes using liquid template language and JSON Schema backed data.</Description>
     <Authors>Resume Builder Contributors</Authors>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
