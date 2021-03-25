@@ -16,9 +16,7 @@ namespace ResumeBuilder.Core.Template
     
     public FluidTemplateBuilder AddFromAssembly(Assembly assembly)
     {
-      var templates = assembly.GetTypes()
-        .Where(type => typeof(ITemplate).IsAssignableFrom(type) && !type.IsInterface)
-        .Select(type => (ITemplate)Activator.CreateInstance(type));
+      var templates = assembly.GetTemplatesFromAssembly();
 
       _templates.AddRange(templates);
 
