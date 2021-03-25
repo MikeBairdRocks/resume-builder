@@ -16,6 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Templates\default\*.liquid" CopyToOutputDirectory="Always" />
+    <EmbeddedResource Include="Templates\default\*.liquid" />
   </ItemGroup>
 </Project>

@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using PuppeteerSharp;
 using PuppeteerSharp.Media;
+using ResumeBuilder.Cli.Templates;
+using ResumeBuilder.Cli.Templates.@default;
 using ResumeBuilder.Core.Exporters;
 using ResumeBuilder.Core.Schema.v1;
 using ResumeBuilder.Core.Template;
@@ -22,13 +24,14 @@ namespace ResumeBuilder.Cli.Commands
       AddOption(TemplateOption);
       AddOption(FormatOption);
 
-      Handler = CommandHandler.Create<FileInfo, FileInfo, Format, IConsole>(async (file, template, format, console) =>
+      Handler = CommandHandler.Create<FileInfo, string, Format, IConsole>(async (file, template, format, console) =>
       {
         var resume = await GetResume(file);
-        var theme = await GetTheme(template);
-
-        var engine = new FluidTemplateEngine();
-        var result = await engine.RenderAsync(theme, resume);
+        var engine = new FluidTemplateBuilder()
+          .AddFromAssembly(typeof(DefaultTemplate).Assembly)
+          .Build();
+        
+        var result = await engine.RenderAsync(template, resume);
         var output = $"resume.{format.ToString()}";
 
         switch (format)
@@ -53,16 +56,16 @@ namespace ResumeBuilder.Cli.Commands
       });
     }
 
-    private static async Task<string> GetTheme(FileInfo template)
-    {
-      if (!template.Exists)
-        throw new FileNotFoundException("Template not found", template.FullName);
-
-      using var templateReader = template.OpenText();
-      var theme = await templateReader.ReadToEndAsync();
-
-      return theme;
-    }
+    // private static async Task<string> GetTheme(FileInfo template)
+    // {
+    //   if (!template.Exists)
+    //     throw new FileNotFoundException("Template not found", template.FullName);
+    //
+    //   using var templateReader = template.OpenText();
+    //   var theme = await templateReader.ReadToEndAsync();
+    //
+    //   return theme;
+    // }
 
     private static async Task<JsonResumeV1> GetResume(FileInfo file)
     {
@@ -91,9 +94,9 @@ namespace ResumeBuilder.Cli.Commands
 
     private static Option TemplateOption => new(new[] {"-t", "--template"}, "Path to a template to render the file.")
     {
-      Argument = new Argument<FileInfo>(() => new FileInfo(Defaults.Theme))
+      Argument = new Argument<string>(() => Defaults.Theme)
       {
-        Name = "filepath",
+        Name = "theme",
         Arity = ArgumentArity.ZeroOrOne
       },
       IsRequired = false
