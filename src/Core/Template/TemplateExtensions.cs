@@ -15,7 +15,7 @@ namespace ResumeBuilder.Core.Template
 
       return result;
     }
-    
+
     public static async Task<string> GetResourceTemplateAsString<T>(this T template)
       where T : class, ITemplate
     {

@@ -48,7 +48,7 @@ namespace ResumeBuilder.Core.Template
 
       var templateFile = await template.GetResourceTemplateAsString();
       
-      var parser = new FluidTemplateParser();
+      var parser = new FluidTemplateParser(template);
       if (!parser.TryParse(templateFile, out var liquidTemplate, out var error))
         throw new Exception(error);
 
