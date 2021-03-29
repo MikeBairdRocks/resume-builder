@@ -5,10 +5,12 @@
     <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>resume</ToolCommandName>
+    <PackageOutputPath>../../nuget</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CommandLine" Version="2.0.0-beta1.20574.7" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
+    <PackageReference Include="System.CommandLine.Hosting" Version="0.3.0-alpha.20574.7" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,6 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Templates\default\*.liquid" />
+    <Content Include="Templates\default\*.liquid" CopyToOutputDirectory="Always">
+      <!--      <PackagePath>Templates\default\</PackagePath>-->
+    </Content>
   </ItemGroup>
 </Project>

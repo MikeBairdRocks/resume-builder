@@ -6,7 +6,7 @@ namespace ResumeBuilder.Core.Template
 {
   public class FluidTemplateParser : FluidParser
   {
-    public FluidTemplateParser(ITemplate template)
+    public FluidTemplateParser()
     {
       RegisterExpressionTag("layout", async (pathExpression, writer, encoder, context) =>
       {
@@ -15,9 +15,9 @@ namespace ResumeBuilder.Core.Template
         {
           layoutPath += ".liquid";
         }
-
-        var resource = $"{template.GetType().Namespace}.{layoutPath}";
-        context.AmbientValues["Layout"] = resource;
+        
+        //var resource = $"{template.GetType().Namespace}.{layoutPath}";
+        context.AmbientValues["Layout"] = layoutPath;
 
         return Completion.Normal;
       });

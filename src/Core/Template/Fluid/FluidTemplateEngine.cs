@@ -7,25 +7,35 @@ using Core;
 using Fluid;
 using Fluid.Ast;
 using Fluid.Parser;
+using Microsoft.Extensions.FileProviders;
 using ResumeBuilder.Core.Schema.v1;
 
 namespace ResumeBuilder.Core.Template
 {
-  public class FluidTemplateEngine
+  public class FluidTemplateEngine : ITemplateEngine
   {
-    private readonly IReadOnlyList<ITemplate> _templates;
+    private readonly IFileProvider _fileProvider;
+    //private readonly IReadOnlyList<ITemplate> _templates;
 
-    public FluidTemplateEngine(IReadOnlyList<ITemplate> templates)
+    // public FluidTemplateEngine(IReadOnlyList<ITemplate> templates)
+    // {
+    //   _templates = templates;
+    // }
+
+    public FluidTemplateEngine(IFileProvider fileProvider)
     {
-      _templates = templates;
+      _fileProvider = fileProvider;
     }
     
-    public async ValueTask<string> RenderAsync(string templateName, JsonResumeV1 resume)
+    public async ValueTask<string> RenderAsync(string template, JsonResumeV1 resume)
     {
-      if (string.IsNullOrEmpty(templateName))
-        throw new ArgumentNullException(nameof(templateName));
-
-      var options = new TemplateOptions();
+      // if (!template.Exists)
+      //   throw new FileNotFoundException("Template not found", template.FullName);
+      
+      var options = new TemplateOptions
+      {
+        FileProvider = _fileProvider
+      };
       options.MemberAccessStrategy.Register<JsonResumeV1>();
       options.MemberAccessStrategy.Register<Award>();
       options.MemberAccessStrategy.Register<Basics>();
@@ -42,24 +52,23 @@ namespace ResumeBuilder.Core.Template
       options.MemberAccessStrategy.Register<Volunteer>();
       options.MemberAccessStrategy.Register<Work>();
 
-      var template = _templates.FirstOrDefault(t => t.Name == templateName);
-      if (template == null)
-        throw new Exception("template not found");
-
-      var templateFile = await template.GetResourceTemplateAsString();
+      var file = _fileProvider.GetFileInfo(template);
+      var templateContent = await file.ReadToEndAsync();
       
-      var parser = new FluidTemplateParser(template);
-      if (!parser.TryParse(templateFile, out var liquidTemplate, out var error))
+      var parser = new FluidTemplateParser();
+      if (!parser.TryParse(templateContent, out var liquidTemplate, out var error))
         throw new Exception(error);
-
+      
       var context = new TemplateContext(resume, options);
       var body = await liquidTemplate.RenderAsync(context);
       
       // If a layout is specified while rendering a template, execute it
       if (context.AmbientValues.TryGetValue("Layout", out var layoutPath))
       {
-        var assembly = template.GetType().Assembly;
-        var layoutContent = await assembly.GetResourcePathAsString((string)layoutPath);
+        var directory = template.Replace(file.Name, "");
+        var path = $"{directory}{layoutPath}";
+        var layoutFile = _fileProvider.GetFileInfo(path);
+        var layoutContent = await layoutFile.ReadToEndAsync();
         
         context.AmbientValues["Body"] = body;
         var layoutTemplate = ParseLiquidFile(layoutContent, parser);

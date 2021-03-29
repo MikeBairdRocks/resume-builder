@@ -5,7 +5,8 @@ using System.CommandLine.IO;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using ResumeBuilder.Cli.Templates.@default;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using ResumeBuilder.Core.Exporters;
 using ResumeBuilder.Core.Schema.v1;
 using ResumeBuilder.Core.Template;
@@ -21,12 +22,11 @@ namespace ResumeBuilder.Cli.Commands
       AddOption(TemplateOption);
       AddOption(FormatOption);
 
-      Handler = CommandHandler.Create<FileInfo, string, Format, IConsole>(async (file, template, format, console) =>
+      Handler = CommandHandler.Create<FileInfo, string, Format, IConsole, IHost>(async (file, template, format, console, host) =>
       {
+        var services = host.Services;
+        var engine = services.GetRequiredService<ITemplateEngine>();
         var resume = await GetResume(file);
-        var engine = new FluidTemplateBuilder()
-          .AddFromAssembly(typeof(DefaultTemplate).Assembly)
-          .Build();
         
         var result = await engine.RenderAsync(template, resume);
         var output = $"resume.{format.ToString()}";
@@ -53,17 +53,6 @@ namespace ResumeBuilder.Cli.Commands
       });
     }
 
-    // private static async Task<string> GetTheme(FileInfo template)
-    // {
-    //   if (!template.Exists)
-    //     throw new FileNotFoundException("Template not found", template.FullName);
-    //
-    //   using var templateReader = template.OpenText();
-    //   var theme = await templateReader.ReadToEndAsync();
-    //
-    //   return theme;
-    // }
-
     private static async Task<JsonResumeV1> GetResume(FileInfo file)
     {
       if (!file.Exists)
@@ -78,16 +67,6 @@ namespace ResumeBuilder.Cli.Commands
     }
 
     private static Argument<FileInfo> FileArgument => new("file");
-
-    // private static Option FileOption => new(new[] {"-f", "--file"}, "Path to a resume.json file")
-    // {
-    //   Argument = new Argument<FileInfo>(() => new FileInfo(Defaults.ResumePath))
-    //   {
-    //     Name = "filepath",
-    //     Arity = ArgumentArity.ZeroOrOne
-    //   },
-    //   IsRequired = true
-    // };
 
     private static Option TemplateOption => new(new[] {"-t", "--template"}, "Path to a template to render the file.")
     {
