@@ -2,7 +2,7 @@ using System;
 using Fluid;
 using Fluid.Ast;
 
-namespace ResumeBuilder.Core.Template
+namespace ResumeBuilder.Core.Template.Fluid
 {
   public class FluidTemplateParser : FluidParser
   {

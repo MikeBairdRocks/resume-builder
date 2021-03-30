@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Core;
 using Fluid;
@@ -12,7 +9,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using ResumeBuilder.Core.Schema.v1;
 
-namespace ResumeBuilder.Core.Template
+namespace ResumeBuilder.Core.Template.Fluid
 {
   public class FluidTemplateEngine : ITemplateEngine
   {
@@ -24,7 +21,7 @@ namespace ResumeBuilder.Core.Template
       _fileProvider = fileProvider;
       _logger = logger;
     }
-    
+
     public async ValueTask<string> RenderAsync(string template, JsonResumeV1 resume)
     {
       var options = new TemplateOptions
@@ -49,28 +46,26 @@ namespace ResumeBuilder.Core.Template
 
       var file = _fileProvider.GetFileInfo(template);
       var templateContent = await file.ReadToEndAsync();
-      
+
       var parser = new FluidTemplateParser();
       if (!parser.TryParse(templateContent, out var liquidTemplate, out var error))
         throw new Exception(error);
-      
+
       var context = new TemplateContext(resume, options);
       var body = await liquidTemplate.RenderAsync(context);
-      
+
       // If a layout is specified while rendering a template, execute it
       if (context.AmbientValues.TryGetValue("Layout", out var layoutPath))
       {
-        var directory = template.Replace(file.Name, "");
-        var path = $"{directory}{layoutPath}";
-        var layoutFile = _fileProvider.GetFileInfo(path);
+        var layoutFile = _fileProvider.GetFileInfo((string) layoutPath);
         var layoutContent = await layoutFile.ReadToEndAsync();
-        
+
         context.AmbientValues["Body"] = body;
         var statements = new List<Statement>();
         if (!parser.TryParse(layoutContent, out var layoutTemplate, out var errors))
           throw new ParseException(errors);
 
-        statements.AddRange(layoutTemplate.Statements);
+        statements.AddRange(((FluidTemplate) layoutTemplate).Statements);
         var layoutFluidTemplate = new FluidTemplate(statements);
 
         return await layoutFluidTemplate.RenderAsync(context);

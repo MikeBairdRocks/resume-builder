@@ -13,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ResumeBuilder.Cli.Commands;
 using ResumeBuilder.Core.Template;
+using ResumeBuilder.Core.Template.Fluid;
 
 namespace ResumeBuilder.Cli
 {
@@ -25,7 +26,11 @@ namespace ResumeBuilder.Cli
           host
             .ConfigureServices((context, services) =>
             {
-              services.AddSingleton<IFileProvider>(new PhysicalFileProvider(AppContext.BaseDirectory));
+              var rootPath = context.HostingEnvironment.ContentRootPath;
+              context.HostingEnvironment.ContentRootFileProvider = new PhysicalFileProvider(rootPath);
+              
+              var templateRootPath = Path.Combine(rootPath, "Templates");
+              services.AddSingleton<IFileProvider>(new PhysicalFileProvider(templateRootPath));
               services.AddSingleton<ITemplateEngine, FluidTemplateEngine>();
             })
             .ConfigureLogging((context, builder) =>
