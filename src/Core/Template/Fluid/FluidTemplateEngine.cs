@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Fluid;
 using Fluid.Ast;
 using Fluid.Parser;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.Logging;
 using ResumeBuilder.Core.Schema.v1;
 
 namespace ResumeBuilder.Core.Template
@@ -15,23 +17,16 @@ namespace ResumeBuilder.Core.Template
   public class FluidTemplateEngine : ITemplateEngine
   {
     private readonly IFileProvider _fileProvider;
-    //private readonly IReadOnlyList<ITemplate> _templates;
+    private readonly ILogger<FluidTemplateEngine> _logger;
 
-    // public FluidTemplateEngine(IReadOnlyList<ITemplate> templates)
-    // {
-    //   _templates = templates;
-    // }
-
-    public FluidTemplateEngine(IFileProvider fileProvider)
+    public FluidTemplateEngine(IFileProvider fileProvider, ILogger<FluidTemplateEngine> logger)
     {
       _fileProvider = fileProvider;
+      _logger = logger;
     }
     
     public async ValueTask<string> RenderAsync(string template, JsonResumeV1 resume)
     {
-      // if (!template.Exists)
-      //   throw new FileNotFoundException("Template not found", template.FullName);
-      
       var options = new TemplateOptions
       {
         FileProvider = _fileProvider
@@ -71,23 +66,17 @@ namespace ResumeBuilder.Core.Template
         var layoutContent = await layoutFile.ReadToEndAsync();
         
         context.AmbientValues["Body"] = body;
-        var layoutTemplate = ParseLiquidFile(layoutContent, parser);
+        var statements = new List<Statement>();
+        if (!parser.TryParse(layoutContent, out var layoutTemplate, out var errors))
+          throw new ParseException(errors);
 
-        return await layoutTemplate.RenderAsync(context);
+        statements.AddRange(layoutTemplate.Statements);
+        var layoutFluidTemplate = new FluidTemplate(statements);
+
+        return await layoutFluidTemplate.RenderAsync(context);
       }
 
       return body;
-    }
-
-    private static IFluidTemplate ParseLiquidFile(string fileContent, FluidTemplateParser parser)
-    {
-      var statements = new List<Statement>();
-      if (!parser.TryParse(fileContent, out var template, out var errors))
-        throw new ParseException(errors);
-
-      statements.AddRange(template.Statements);
-
-      return new FluidTemplate(statements);
     }
   }
 }

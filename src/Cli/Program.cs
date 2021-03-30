@@ -1,4 +1,5 @@
-﻿using System.CommandLine;
+﻿using System;
+using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Help;
 using System.CommandLine.Hosting;
@@ -24,12 +25,16 @@ namespace ResumeBuilder.Cli
           host
             .ConfigureServices((context, services) =>
             {
-              services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Directory.GetCurrentDirectory()));
+              services.AddSingleton<IFileProvider>(new PhysicalFileProvider(AppContext.BaseDirectory));
               services.AddSingleton<ITemplateEngine, FluidTemplateEngine>();
             })
             .ConfigureLogging((context, builder) =>
             {
               builder.ClearProviders();
+              builder.AddConsole();
+              builder
+                .AddFilter("System", LogLevel.None)
+                .AddFilter("Microsoft", LogLevel.None);
             });
         })
         .UseDefaults()

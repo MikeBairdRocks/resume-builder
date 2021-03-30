@@ -72,7 +72,7 @@ namespace ResumeBuilder.Cli.Commands
     {
       Argument = new Argument<string>(() => Defaults.Theme)
       {
-        Name = "theme",
+        Name = "template",
         Arity = ArgumentArity.ZeroOrOne
       },
       IsRequired = false

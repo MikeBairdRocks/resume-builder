@@ -16,7 +16,6 @@ namespace ResumeBuilder.Core.Template
           layoutPath += ".liquid";
         }
         
-        //var resource = $"{template.GetType().Namespace}.{layoutPath}";
         context.AmbientValues["Layout"] = layoutPath;
 
         return Completion.Normal;
