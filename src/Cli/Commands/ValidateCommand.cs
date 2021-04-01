@@ -30,7 +30,12 @@ namespace ResumeBuilder.Cli.Commands
         }
         else
         {
-          console.Out.Write($"{file.Name} is NOT valid.");
+          console.Out.Write($"{file.Name} is NOT valid:");
+
+          foreach (var message in result.Messages)
+          {
+            console.Out.Write($"{message}");
+          }
         }
       });
     }

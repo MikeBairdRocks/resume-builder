@@ -1,5 +1,8 @@
 using System;
+using System.Globalization;
 using System.Text.Json.Serialization;
+using Humanizer;
+using Humanizer.Localisation;
 
 namespace ResumeBuilder.Core.Schema.v1
 {
@@ -58,5 +61,19 @@ namespace ResumeBuilder.Core.Schema.v1
     /// </summary>
     [JsonPropertyName("url")]
     public Uri Url { get; set; }
+
+    [JsonIgnore]
+    public string DateRange => $"{StartDate ?? DateTimeOffset.Now:MMM, yyyy} - {EndDate ?? DateTimeOffset.Now:MMM, yyyy}";
+
+    [JsonIgnore]
+    public string DateDistance
+    {
+      get
+      {
+        var range = EndDate.GetValueOrDefault(DateTimeOffset.Now) - StartDate.GetValueOrDefault(DateTimeOffset.Now);
+        
+        return range.Humanize(2, CultureInfo.CurrentCulture, TimeUnit.Year, TimeUnit.Month);
+      }
+    }
   }
 }

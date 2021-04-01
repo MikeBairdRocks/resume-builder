@@ -1,0 +1,29 @@
+{% if Skills %}
+  <div class="py-4 block">
+    <h5 class="text-xl uppercase text-gray-500"><ion-icon name="construct" class="mr-3"></ion-icon> Skills</h5>
+    <hr class="ml-8 mb-2" />
+    <div class="pl-8 break-words">
+      {% for skill in Skills %}
+        {% case skill.Level %}
+          {% when "Master" %}
+            {% assign skill_color = "green-500" %}
+          {% when "Proficient" %}
+            {% assign skill_color = "yellow-500" %}
+          {% else %}
+            {% assign skill_color = "yellow-300" %}
+        {% endcase %}
+        
+        <div class="mb-1">
+          <div class="p-2">
+            <h6 class="font-bold">{{ skill.Name }}</h6>
+            <div class="my-3 flex flex-wrap -m-1">
+              {% for key in skill.Keywords %}
+                <div class="bg-{{ skill_color }} text-white rounded-full px-2 m-1 justify-center items-center">{{ key }}</div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

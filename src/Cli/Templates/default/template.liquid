@@ -1,17 +1,21 @@
 {% layout 'default/layout' %}
 {% assign hr = '<hr class="my-8" />' %}
+{% assign card = 'border border-gray-300 bg-white rounded-lg overflow-hidden' %}
 
 <div class="grid grid-cols-3 gap-2 p-2">
-  <div class="bg-white shadow overflow-hidden rounded-lg col-span-1 text-center">
+  <div class="{{ card }} col-span-1 text-center">
     {% include 'default/basics' %}
   </div>
 
-  <div class="bg-white shadow overflow-hidden rounded-lg col-span-2">
+  <div class="{{ card }} col-span-2">
     <div class="px-4 py-5">
       <h5 class="uppercase text-gray-500 text-2xl">Background</h5>
       <hr />
       <div class="grid grid-cols-1 gap-2">
-        
+        {% include 'default/about' %}
+        {% include 'default/work' %}
+        {% include 'default/skills' %}
+        {% include 'default/education' %}
       </div>
     </div>
   </div>

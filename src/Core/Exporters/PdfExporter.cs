@@ -27,12 +27,14 @@ namespace ResumeBuilder.Core.Exporters
 
       var encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(content));
       await page.GoToAsync($"data:text/html;base64,{encoded}", WaitUntilNavigation.Networkidle0);
-
-      await page.PdfAsync(filePath, new PdfOptions
+      
+      var pdfOptions = new PdfOptions
       {
         Format = PaperFormat.Letter,
-        PrintBackground = true
-      });
+        PrintBackground = true,
+        Scale = 0.8m
+      };
+      await page.PdfAsync(filePath, pdfOptions);
     }
   }
 }

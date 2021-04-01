@@ -1,7 +1,8 @@
+using System.Collections.Generic;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading.Tasks;
-using Json.Schema;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
 using ResumeBuilder.Core.Schema.v1;
 
 namespace ResumeBuilder.Core.Schema
@@ -19,16 +20,15 @@ namespace ResumeBuilder.Core.Schema
       _client = client;
     }
 
-    public async Task<ValidationResults> ValidateV1(string json)
+    public async Task<(bool IsValid, IList<string> Messages)> ValidateV1(string json)
     {
       var response = await _client.GetAsync(JsonResumeV1.SchemaUrl);
       var resumeSchema = await response.Content.ReadAsStringAsync();
+      var schema = JsonSchema.Parse(resumeSchema);
 
-      var schema = JsonSchema.FromText(resumeSchema);
-      var root = JsonDocument.Parse(json).RootElement;
-      var validation = schema.Validate(root, ValidationOptions.Default);
-
-      return validation;
+      var resumeObject = JObject.Parse(json);
+      var isValid = resumeObject.IsValid(schema, out IList<string> messages);
+      return (isValid, messages);
     }
   }
 }

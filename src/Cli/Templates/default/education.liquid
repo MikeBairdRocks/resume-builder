@@ -1,0 +1,26 @@
+{% if Education %}
+  <div class="py-4 block">
+    <h5 class="text-xl uppercase text-gray-500"><ion-icon name="school" class="mr-3"></ion-icon> Education</h5>
+    <hr class="ml-8 mb-2" />
+    <div class="pl-8 break-words">
+      {% for edu in Education %}
+        <div class="mb-4">
+          <div><span class="font-bold">{{ edu.Institution }}</span>, {{ edu.StudyType }}</div>
+          <small class="text-gray-500">{{ edu.DateRange }}<span class="ml-2"><ion-icon name="time-outline"></ion-icon> {{ edu.DateDistance }}</span></small>
+          {% if edu.Gpa %}
+          <div class="mt-2">
+            {{ edu.Gpa }}
+          </div>
+          {% endif %}
+          {% if edu.Courses %}
+            <div class="my-3 flex flex-wrap -m-1">
+            {% for course in edu.Courses %}
+              <div class="bg-blue-500 text-white rounded-full px-2 m-1 justify-center items-center">{{ course }}</div>
+            {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
