@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Core;
 using Fluid;
 using Fluid.Ast;
 using Fluid.Parser;
+using Markdig;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using ResumeBuilder.Core.Schema.v1;
@@ -51,6 +53,8 @@ namespace ResumeBuilder.Core.Template.Fluid
       if (!parser.TryParse(templateContent, out var liquidTemplate, out var error))
         throw new Exception(error);
 
+      RenderMarkdown(resume);
+
       var context = new TemplateContext(resume, options);
       var body = await liquidTemplate.RenderAsync(context);
 
@@ -72,6 +76,19 @@ namespace ResumeBuilder.Core.Template.Fluid
       }
 
       return body;
+    }
+
+    private static void RenderMarkdown(JsonResumeV1 resume)
+    {
+      var markdownWorks = new List<Work>();
+      foreach (var work in resume.Work)
+      {
+        work.Description = Markdown.ToHtml(work.Description);
+        work.Highlights = work.Highlights.Select(highlight => Markdown.ToHtml(highlight)).ToArray();
+        markdownWorks.Add(work);
+      }
+
+      resume.Work = markdownWorks.ToArray();
     }
   }
 }
