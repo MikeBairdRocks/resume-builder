@@ -7,7 +7,12 @@ using ResumeBuilder.Core.Schema.v1;
 
 namespace ResumeBuilder.Core.Schema
 {
-  public class Validator
+  public interface IValidator
+  {
+    Task<(bool IsValid, IList<string> Messages)> ValidateV1(string json);
+  }
+
+  public class Validator : IValidator
   {
     private readonly HttpClient _client;
 

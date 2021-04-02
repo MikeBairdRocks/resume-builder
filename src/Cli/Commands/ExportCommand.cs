@@ -22,32 +22,18 @@ namespace ResumeBuilder.Cli.Commands
       AddOption(TemplateOption);
       AddOption(FormatOption);
 
-      Handler = CommandHandler.Create<FileInfo, string, Format, IConsole, IHost>(async (file, template, format, console, host) =>
+      Handler = CommandHandler.Create<FileInfo, string, ExportFormat, IConsole, IHost>(async (file, template, format, console, host) =>
       {
         var services = host.Services;
         var engine = services.GetRequiredService<ITemplateEngine>();
-        var resume = await GetResume(file);
+        var exporterFactory = services.GetRequiredService<ExporterFactory>();
         
+        var resume = await GetResume(file);
         var result = await engine.RenderAsync(template, resume);
         var output = $"resume.{format.ToString()}";
 
-        switch (format)
-        {
-          case Format.html:
-          {
-            var htmlExporter = new HtmlExporter();
-            await htmlExporter.ExportAsync(result, output);
-            break;
-          }
-          case Format.pdf:
-          {
-            var pdfExporter = new PdfExporter();
-            await pdfExporter.ExportAsync(result, output);
-            break;
-          }
-          default:
-            throw new ArgumentOutOfRangeException(nameof(format), format, null);
-        }
+        var exporter = exporterFactory.GetExporter(format);
+        await exporter.ExportAsync(result, output);
 
         console.Out.WriteLine("Done...");
       });
@@ -70,7 +56,7 @@ namespace ResumeBuilder.Cli.Commands
 
     private static Option TemplateOption => new(new[] {"-t", "--template"}, "Path to a template to render the file.")
     {
-      Argument = new Argument<string>(() => Defaults.Theme)
+      Argument = new Argument<string>(() => "default/template.liquid")
       {
         Name = "template",
         Arity = ArgumentArity.ZeroOrOne
@@ -80,18 +66,12 @@ namespace ResumeBuilder.Cli.Commands
 
     private static Option FormatOption => new(new[] {"--format"}, "Format in 'html' or 'pdf'.")
     {
-      Argument = new Argument<Format>(() => Format.pdf)
+      Argument = new Argument<ExportFormat>(() => ExportFormat.pdf)
       {
         Name = "format",
         Arity = ArgumentArity.ZeroOrOne
       },
       IsRequired = false
     };
-  }
-
-  public enum Format
-  {
-    pdf,
-    html
   }
 }

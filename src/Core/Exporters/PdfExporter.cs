@@ -34,6 +34,7 @@ namespace ResumeBuilder.Core.Exporters
         PrintBackground = true,
         Scale = 0.8m
       };
+      
       await page.PdfAsync(filePath, pdfOptions);
     }
   }
