@@ -4,16 +4,16 @@
   <hr class="ml-8 mb-2" />
   <div class="pl-8 break-words">
     {% for work in Work %}
-    <div class="mb-8 job">
+    <div class="mb-8">
       <div><span class="font-bold">{{ work.Position }}</span>, <a href="{{ work.Url }}">{{ work.Name }}</a></div>
       <small class="text-gray-500">{{ work.DateRange }}<span class="ml-2"><ion-icon name="time-outline"></ion-icon> {{ work.DateDistance }}</span></small>
       {% if work.Description %}
-      <div class="mt-2">
+      <div class="mt-2 link-color">
         {{ work.Description }}
       </div>
       {% endif %}
       {% if work.Highlights %}
-        <ul class="text-sm ml-8 list-disc mt-4">
+        <ul class="text-sm ml-8 list-disc mt-4 link-color">
           {% for highlight in work.Highlights %}
             <li>{{ highlight }}</li>
           {% endfor %}
