@@ -29,7 +29,7 @@ namespace ResumeBuilder.Core.Schema
     {
       var response = await _client.GetAsync(JsonResumeV1.SchemaUrl);
       var resumeSchema = await response.Content.ReadAsStringAsync();
-      var schema = JsonSchema.Parse(resumeSchema);
+      var schema = JSchema.Parse(resumeSchema);
 
       var resumeObject = JObject.Parse(json);
       var isValid = resumeObject.IsValid(schema, out IList<string> messages);

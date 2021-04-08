@@ -1,5 +1,4 @@
-﻿using System;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.Builder;
 using System.CommandLine.Help;
 using System.CommandLine.Hosting;
@@ -13,8 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ResumeBuilder.Cli.Commands;
 using ResumeBuilder.Core;
-using ResumeBuilder.Core.Template;
-using ResumeBuilder.Core.Template.Fluid;
 
 namespace ResumeBuilder.Cli
 {

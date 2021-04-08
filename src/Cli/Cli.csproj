@@ -5,7 +5,6 @@
     <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>resume</ToolCommandName>
-    <PackageOutputPath>../../nuget</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Templates\default\*.liquid" CopyToOutputDirectory="Always" />
+    <None Update="Templates\**\*.liquid" CopyToOutputDirectory="Always" />
   </ItemGroup>
 </Project>

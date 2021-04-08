@@ -12,9 +12,14 @@ ProjectSection(SolutionItems) = preProject
 	Directory.Build.targets = Directory.Build.targets
 	README.md = README.md
 	GitVersion.yml = GitVersion.yml
+	.gitignore = .gitignore
 EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{7A85CBC2-DBF3-480B-90AB-F9E2603DE2B6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.csproj", "{6C81AABB-CEFE-4345-8FB0-9E648E3BB778}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{752C0F34-B25E-43E1-8088-CC6586C0263A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,8 +29,11 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{72E78DD6-EB52-4C1C-AF2D-61253D03BEA0} = {70D2AC5B-6D19-4BDC-ACDD-D127216646AE}
 		{741744DE-501A-45AE-A846-14C76FB4941E} = {70D2AC5B-6D19-4BDC-ACDD-D127216646AE}
+		{6C81AABB-CEFE-4345-8FB0-9E648E3BB778} = {752C0F34-B25E-43E1-8088-CC6586C0263A}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6C81AABB-CEFE-4345-8FB0-9E648E3BB778}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C81AABB-CEFE-4345-8FB0-9E648E3BB778}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{72E78DD6-EB52-4C1C-AF2D-61253D03BEA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{72E78DD6-EB52-4C1C-AF2D-61253D03BEA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{72E78DD6-EB52-4C1C-AF2D-61253D03BEA0}.Release|Any CPU.ActiveCfg = Release|Any CPU

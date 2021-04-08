@@ -1,3 +1,4 @@
+{% if Basics %}
 <div class="px-4 py-5">
   <div>
     {% if Basics.Image != null %}<img class="inline object-cover w-1/2 rounded-full" src="{{ Basics.Image }}" alt="{{ Basics.Name }}" />{% endif %}
@@ -5,34 +6,33 @@
     <span class="text-gray-500">{{ Basics.Label }}</span>
   </div>
 
-  {% if Basics != null %}
-    {{ hr | raw }}
-    <div class="grid grid-cols-1 gap-4">
-      {% if Basics.Location %}
-        <div>
-          <ion-icon name="navigate-circle"></ion-icon> {{ Basics.Location.Address }}
-        </div>
-      {% endif %}
-      {% if Basics.Phone %}
-        <div>
-          <ion-icon name="call"></ion-icon>
-          <a href="tel:{{ Basics.Phone }}">{{ Basics.Phone }}</a>
-        </div>
-      {% endif %}
-      {% if Basics.Email %}
-        <div>
-          <ion-icon name="mail"></ion-icon>
-          <a href="mailto:{{ Basics.Email }}">{{ Basics.Email }}</a>
-        </div>
-      {% endif %}
-      {% if Basics.Url %}
-        <div>
-          <ion-icon name="open"></ion-icon>
-          <a href="{{ Basics.Url }}">{{ Basics.Url }}</a>
-        </div>
-      {% endif %}
-    </div>
-  {% endif %}
+  {{ hr | raw }}
+  
+  <div class="grid grid-cols-1 gap-4">
+    {% if Basics.Location %}
+      <div>
+        <ion-icon name="navigate-circle"></ion-icon> {{ Basics.Location.Address }}
+      </div>
+    {% endif %}
+    {% if Basics.Phone %}
+      <div>
+        <ion-icon name="call"></ion-icon>
+        <a href="tel:{{ Basics.Phone }}">{{ Basics.Phone }}</a>
+      </div>
+    {% endif %}
+    {% if Basics.Email %}
+      <div>
+        <ion-icon name="mail"></ion-icon>
+        <a href="mailto:{{ Basics.Email }}">{{ Basics.Email }}</a>
+      </div>
+    {% endif %}
+    {% if Basics.Url %}
+      <div>
+        <ion-icon name="open"></ion-icon>
+        <a href="{{ Basics.Url }}">{{ Basics.Url }}</a>
+      </div>
+    {% endif %}
+  </div>
 
   {% if Basics.Profiles %}
     {{ hr | raw }}
@@ -70,3 +70,4 @@
     </div>
   {% endif %}
 </div>
+{% endif %}
