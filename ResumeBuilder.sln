@@ -8,10 +8,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cli", "src\Cli\Cli.csproj",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{F367A2CE-D2B1-4C61-80E4-C462ABFAA8B5}"
 ProjectSection(SolutionItems) = preProject
-	Directory.Build.props = Directory.Build.props
-	Directory.Build.targets = Directory.Build.targets
 	README.md = README.md
-	GitVersion.yml = GitVersion.yml
 	.gitignore = .gitignore
 EndProjectSection
 EndProject
