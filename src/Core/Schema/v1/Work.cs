@@ -63,7 +63,16 @@ namespace ResumeBuilder.Core.Schema.v1
     public Uri Url { get; set; }
 
     [JsonIgnore]
-    public string DateRange => $"{StartDate ?? DateTimeOffset.Now:MMM, yyyy} - {EndDate ?? DateTimeOffset.Now:MMM, yyyy}";
+    public string DateRange
+    {
+      get
+      {
+        var startDate = StartDate != null ? StartDate?.ToString("MMM, yyyy") : DateTimeOffset.Now.ToString("MMM, yyyy");
+        var endDate = EndDate != null ? EndDate?.ToString("MMM, yyyy") : "Current";
+        
+        return $"{startDate} - {endDate}";
+      }
+    }
 
     [JsonIgnore]
     public string DateDistance

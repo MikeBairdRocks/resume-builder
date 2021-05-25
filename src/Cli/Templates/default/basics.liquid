@@ -11,24 +11,24 @@
   <div class="grid grid-cols-1 gap-4">
     {% if Basics.Location %}
       <div>
-        <ion-icon name="navigate-circle"></ion-icon> {{ Basics.Location.Address }}
+        <ion-icon name="navigate-circle">Location</ion-icon> {{ Basics.Location.Address }}
       </div>
     {% endif %}
     {% if Basics.Phone %}
       <div>
-        <ion-icon name="call"></ion-icon>
+        <ion-icon name="call">Phone</ion-icon>
         <a href="tel:{{ Basics.Phone }}">{{ Basics.Phone }}</a>
       </div>
     {% endif %}
     {% if Basics.Email %}
       <div>
-        <ion-icon name="mail"></ion-icon>
+        <ion-icon name="mail">Email</ion-icon>
         <a href="mailto:{{ Basics.Email }}">{{ Basics.Email }}</a>
       </div>
     {% endif %}
     {% if Basics.Url %}
       <div>
-        <ion-icon name="open"></ion-icon>
+        <ion-icon name="open">Website</ion-icon>
         <a href="{{ Basics.Url }}">{{ Basics.Url }}</a>
       </div>
     {% endif %}

@@ -8,10 +8,19 @@ namespace ResumeBuilder.Core.Schema.v1
   {
     public const string SchemaUrl = "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json";
 
-    private static readonly JsonSerializerOptions Settings = new()
+    private static JsonSerializerOptions Settings
     {
-      DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-    };
+      get
+      {
+        var settings = new JsonSerializerOptions
+        {
+          DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+        };
+        settings.Converters.Add(new JsonConverterForNullableDateTimeOffset());
+
+        return settings;
+      }
+    }
 
     public static JsonResumeV1 FromJson(string json) => JsonSerializer.Deserialize<JsonResumeV1>(json, Settings);
     public string ToJson() => JsonSerializer.Serialize(this, Settings);

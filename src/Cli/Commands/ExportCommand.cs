@@ -20,8 +20,9 @@ namespace ResumeBuilder.Cli.Commands
       AddArgument(FileArgument);
       AddOption(TemplateOption);
       AddOption(FormatOption);
+      AddOption(OutputOption);
 
-      Handler = CommandHandler.Create<FileInfo, string, ExportFormat, IConsole, IHost>(async (file, template, format, console, host) =>
+      Handler = CommandHandler.Create<FileInfo, string, ExportFormat, string, IConsole, IHost>(async (file, template, format, output, console, host) =>
       {
         var services = host.Services;
         var engine = services.GetRequiredService<ITemplateEngine>();
@@ -29,10 +30,10 @@ namespace ResumeBuilder.Cli.Commands
         
         var resume = await GetResume(file);
         var result = await engine.RenderAsync(template, resume);
-        var output = $"resume.{format.ToString()}";
+        var filePath = string.IsNullOrEmpty(output) ? $"resume.{format.ToString()}" : output;
 
         var exporter = exporterFactory.GetExporter(format);
-        await exporter.ExportAsync(result, output);
+        await exporter.ExportAsync(result, filePath);
 
         console.Out.WriteLine("Done...");
       });
@@ -68,6 +69,16 @@ namespace ResumeBuilder.Cli.Commands
       Argument = new Argument<ExportFormat>(() => ExportFormat.pdf)
       {
         Name = "format",
+        Arity = ArgumentArity.ZeroOrOne
+      },
+      IsRequired = false
+    };
+    
+    private static Option OutputOption => new(new[] {"-o", "--output"}, "Output path to render the file.")
+    {
+      Argument = new Argument<string>
+      {
+        Name = "output",
         Arity = ArgumentArity.ZeroOrOne
       },
       IsRequired = false
