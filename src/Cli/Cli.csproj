@@ -5,6 +5,7 @@
     <TargetFramework>$(NetCoreTargetVersion)</TargetFramework>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>resume</ToolCommandName>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\"/>
     <None Update="Templates\**\*.liquid" CopyToOutputDirectory="Always" />
   </ItemGroup>
 </Project>

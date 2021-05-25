@@ -62,7 +62,7 @@ class Build : NukeBuild
 
   Target Pack => _ => _
     .DependsOn(Restore)
-    .Produces(OutputDirectory / "*.nupkg")
+    .Produces(OutputDirectory / "*.snupkg")
     .Executes(() =>
     {
       var cli = Solution.GetProject("Cli");
@@ -74,6 +74,7 @@ class Build : NukeBuild
         .SetAssemblyVersion(GitVersion.AssemblySemVer)
         .SetFileVersion(GitVersion.AssemblySemFileVer)
         .SetInformationalVersion(GitVersion.InformationalVersion)
+        .SetIncludeSymbols(true)
         .EnableNoRestore());
     });
   
@@ -85,7 +86,7 @@ class Build : NukeBuild
     .Executes(() =>
     {
       DotNetNuGetPush(s => s
-        .SetTargetPath(OutputDirectory / "**/*.nupkg")
+        .SetTargetPath(OutputDirectory / "**/*.snupkg")
         .SetSource(NugetApiUrl)
         .SetApiKey(NugetApiKey)
         .SetSkipDuplicate(true));
