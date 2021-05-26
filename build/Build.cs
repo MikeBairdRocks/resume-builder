@@ -13,14 +13,22 @@ using static Nuke.Common.Tools.DotNet.DotNetTasks;
 
 [CheckBuildProjectConfigurations]
 [ShutdownDotNetAfterServerBuild]
-[GitHubActions("nuget", 
+// [GitHubActions("nuget", 
+//   GitHubActionsImage.UbuntuLatest,
+//   AutoGenerate = true,
+//   PublishArtifacts = true,
+//   OnPushBranches = new[] { MainBranch, ReleaseBranchPrefix + "/*" },
+//   CacheKeyFiles = new[] { "src/**/*.csproj" },
+//   InvokedTargets = new[] { nameof(Push) },
+//   ImportSecrets = new[]{ nameof(NugetApiKey) }
+// )]
+[GitHubActions("pack", 
   GitHubActionsImage.UbuntuLatest,
   AutoGenerate = true,
-  PublishArtifacts = false,
+  PublishArtifacts = true,
   OnPushBranches = new[] { MainBranch, ReleaseBranchPrefix + "/*" },
   CacheKeyFiles = new[] { "src/**/*.csproj" },
-  InvokedTargets = new[] { nameof(Push) },
-  ImportSecrets = new[]{ nameof(NugetApiKey) }
+  InvokedTargets = new[] { nameof(Pack) }
 )]
 class Build : NukeBuild
 {
@@ -62,7 +70,7 @@ class Build : NukeBuild
 
   Target Pack => _ => _
     .DependsOn(Restore)
-    .Produces(OutputDirectory / "*.snupkg")
+    .Produces(OutputDirectory / "*.nupkg")
     .Executes(() =>
     {
       var cli = Solution.GetProject("Cli");
@@ -86,7 +94,7 @@ class Build : NukeBuild
     .Executes(() =>
     {
       DotNetNuGetPush(s => s
-        .SetTargetPath(OutputDirectory / "**/*.snupkg")
+        .SetTargetPath(OutputDirectory / "**/*.nupkg")
         .SetSource(NugetApiUrl)
         .SetApiKey(NugetApiKey)
         .SetSkipDuplicate(true));
