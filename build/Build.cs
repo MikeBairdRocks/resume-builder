@@ -82,7 +82,6 @@ class Build : NukeBuild
         .SetAssemblyVersion(GitVersion.AssemblySemVer)
         .SetFileVersion(GitVersion.AssemblySemFileVer)
         .SetInformationalVersion(GitVersion.InformationalVersion)
-        .SetIncludeSymbols(true)
         .EnableNoRestore());
     });
   
