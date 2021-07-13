@@ -1,8 +1,7 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using PuppeteerSharp;
-using PuppeteerSharp.Media;
+using Microsoft.Playwright;
 
 namespace ResumeBuilder.Core.Exporters
 {
@@ -10,32 +9,29 @@ namespace ResumeBuilder.Core.Exporters
   {
     public async Task ExportAsync(string content, string filePath)
     {
-      var fetcher = new BrowserFetcher(new BrowserFetcherOptions
-      {
-        Path = AppContext.BaseDirectory
-      });
+      // Install Chrome before using Playwright.
+      // (See: https://github.com/microsoft/playwright-dotnet/issues/1545#issuecomment-865199736)
+      Program.Main(new[] {"install", "chromium"});
 
-      await fetcher.DownloadAsync(BrowserFetcher.DefaultChromiumRevision);
-      var browser = await Puppeteer.LaunchAsync(new LaunchOptions
+      using var playwright = await Playwright.CreateAsync();
+      await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
       {
-        ExecutablePath = fetcher.GetExecutablePath(BrowserFetcher.DefaultChromiumRevision),
         Headless = true
       });
+      await using var context = await browser.NewContextAsync();
 
-      var page = await browser.NewPageAsync();
-      await page.EmulateMediaTypeAsync(MediaType.Print);
-
+      var page = await context.NewPageAsync();
+      await page.EmulateMediaAsync(new PageEmulateMediaOptions {Media = Media.Print});
       var encoded = Convert.ToBase64String(Encoding.UTF8.GetBytes(content));
-      await page.GoToAsync($"data:text/html;base64,{encoded}", WaitUntilNavigation.Networkidle0);
-      
-      var pdfOptions = new PdfOptions
+      await page.GotoAsync($"data:text/html;base64,{encoded}", new PageGotoOptions {WaitUntil = WaitUntilState.NetworkIdle});
+
+      await page.PdfAsync(new PagePdfOptions
       {
-        Format = PaperFormat.Letter,
+        Path = filePath,
+        Format = "Letter",
         PrintBackground = true,
-        Scale = 0.8m
-      };
-      
-      await page.PdfAsync(filePath, pdfOptions);
+        Scale = 0.8f
+      });
     }
   }
 }

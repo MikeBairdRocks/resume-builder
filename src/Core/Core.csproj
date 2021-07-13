@@ -9,7 +9,7 @@
     <PackageReference Include="Markdig" Version="0.24.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
     <PackageReference Include="Fluid.Core" Version="2.0.11" />
+    <PackageReference Include="Microsoft.Playwright" Version="1.12.2" />
     <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.14" />
-    <PackageReference Include="PuppeteerSharp" Version="4.0.0" />
   </ItemGroup>
 </Project>
