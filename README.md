@@ -10,7 +10,7 @@
 
 ## Getting Started
 
-Install the dotnet global tool `ResumeBuilder.Cli` 
+Install the dotnet global tool `ResumeBuilder.Cli` _(🚫 **Work in Progress** - tool install does not quite work yet.)_
 
 ```shell
 dotnet tool install --global ResumeBuilder.Cli
